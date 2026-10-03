@@ -1,20 +1,23 @@
 import pandas as pd
 
-import config
+import src.config as config
 
 
-def momentum(
+def moving_average(
     df: pd.DataFrame,
     capital: float,
     shares: int = 0,
     start_date: pd.Timestamp | None = None,
-    momentum_range: int = 5,
+    ma_range: int = 5,
 ) -> pd.DataFrame:
-    """Simulates a momentum trading strategy based on lookback returns.
+    """Simulates a moving average crossover trading strategy.
 
-    Calculates the percentage return over a rolling lookback window (`momentum_range`).
-    If the return is positive, a buy signal is generated. If negative or zero,
-    a sell signal is triggered.
+    Calculates an n-day moving average of opening prices. If the current price
+    exceeds the moving average, a buy signal is generated. If the current price
+    falls below or equals the moving average, a sell signal is triggered.
+
+    When buying, the strategy deploys all available cash capital to purchase whole
+    shares. When selling, the entire position is liquidated.
 
     Parameters
     ----------
@@ -26,8 +29,8 @@ def momentum(
         The initial number of shares held. Updated during execution.
     start_date : pd.Timestamp | None, default=None
         The starting date for backtesting. If None, uses the first date in `df`.
-    momentum_range : int, default=5
-        The lookback window (in trading days) for return calculation.
+    ma_range : int, default=5
+        The rolling window lookback range (in trading days) for the moving average.
 
     Returns
     -------
@@ -49,13 +52,13 @@ def momentum(
     --------
     >>> import pandas as pd
     >>> dates = pd.date_range("2020-01-01", periods=7, freq="D")
-    >>> prices = [100.0, 101.0, 102.0, 103.0, 104.0, 106.0, 105.0]
+    >>> prices = [100.0, 100.0, 100.0, 100.0, 100.0, 110.0, 90.0]
     >>> df = pd.DataFrame({"Open": prices}, index=dates)
-    >>> momentum(df, capital=1000.0, momentum_range=5)  # doctest: +NORMALIZE_WHITESPACE
-                 Open   Cash  Shares  Portfolio Value
+    >>> moving_average(df, capital=1000.0, ma_range=5)  # doctest: +NORMALIZE_WHITESPACE
+                 Open    Cash  Shares  Portfolio Value
     Date
-    2020-01-06  106.0   54.0       9           1008.0
-    2020-01-07  105.0   54.0       9            999.0
+    2020-01-06  110.0     0.0       9            990.0
+    2020-01-07   90.0   810.0       0            810.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")
@@ -66,17 +69,17 @@ def momentum(
     dates = pd.DatetimeIndex(df.index)
     history: list[dict[str, float | int | pd.Timestamp]] = []
 
+    # Simulation loop
     for i, (date, price) in enumerate(zip(dates, df["Open"])):
-        # Skip until start date and lookback window are reached
-        if date < start_date or i < momentum_range:
+        # Skip iteration if date is prior to start_date or window is insufficient
+        if date < start_date or i < ma_range:
             continue
 
         price = float(price)
-        price_lookback = float(df["Open"].iloc[i - momentum_range])
-        period_return = (price / price_lookback) - 1.0
+        ma = _calculate_ma(df, i, ma_range)
 
-        # Calculate signal based on return sign
-        signal = config.SIGNAL_BUY if period_return > 0 else config.SIGNAL_SELL
+        # Generate trading signal based on price relative to moving average
+        signal = config.SIGNAL_BUY if price > ma else config.SIGNAL_SELL
 
         # Execute signals using configured signal constants
         if signal == config.SIGNAL_BUY and shares == 0:
@@ -87,10 +90,9 @@ def momentum(
             capital += price * shares
             shares = 0
 
-        # Calculate total portfolio valuation
         portfolio_value = capital + (price * shares)
 
-        # State accounting
+        # Record portfolio state accounting
         history.append(
             {
                 "Date": date,
@@ -102,3 +104,15 @@ def momentum(
         )
 
     return pd.DataFrame(history).set_index("Date")
+
+
+# --- Helper Functions ---
+
+
+def _calculate_ma(
+    df: pd.DataFrame,
+    today: int,
+    window: int,
+) -> float:
+    """Calculate trailing simple moving average for the given row index."""
+    return float(df["Open"].iloc[today - window : today].mean())

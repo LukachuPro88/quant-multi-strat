@@ -2,15 +2,15 @@ from typing import Literal
 
 import pandas as pd
 
-import config
-import analysis.metrics as metrics
-import strategies.buy_and_hold as bah
-import strategies.mean_reversion as mr
-import strategies.momentum as mom
-import strategies.momentum_knn as knn
-import strategies.moving_average as ma
-import strategies.xgboost as xgb
-import strategies.nn as nn
+import src.config as config
+import src.analysis.metrics as metrics
+import src.strategies.buy_and_hold as bah
+import src.strategies.mean_reversion as mr
+import src.strategies.momentum as mom
+import src.strategies.momentum_knn as knn
+import src.strategies.moving_average as ma
+import src.strategies.xgboost as xgb
+import src.strategies.nn as nn
 
 
 def backtest(

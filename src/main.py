@@ -3,9 +3,9 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-import data
-import config
-from backtest import backtest
+import src.data as data
+import src.config as config
+from src.backtest import backtest
 
 
 def main() -> None:

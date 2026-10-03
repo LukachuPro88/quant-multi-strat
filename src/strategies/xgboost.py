@@ -1,7 +1,7 @@
 import pandas as pd
 from xgboost import XGBClassifier
 
-import config
+import src.config as config
 
 
 def xgboost(

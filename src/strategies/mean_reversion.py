@@ -1,7 +1,7 @@
 import math
 import pandas as pd
 
-import config
+import src.config as config
 
 
 def mean_reversion(

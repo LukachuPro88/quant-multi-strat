@@ -5,7 +5,7 @@ import torch
 import torch.nn as torch_nn
 import torch.nn.functional as F
 
-import config
+import src.config as config
 
 
 class NN(torch_nn.Module):
