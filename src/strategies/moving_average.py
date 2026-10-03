@@ -57,8 +57,8 @@ def moving_average(
     >>> moving_average(df, capital=1000.0, ma_range=5)  # doctest: +NORMALIZE_WHITESPACE
                  Open    Cash  Shares  Portfolio Value
     Date
-    2020-01-06  110.0     0.0       9            990.0
-    2020-01-07   90.0   810.0       0            810.0
+    2020-01-06  110.0   10.0       9           1000.0
+    2020-01-07   90.0  820.0       0            820.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")

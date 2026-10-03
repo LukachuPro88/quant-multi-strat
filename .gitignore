@@ -13,9 +13,7 @@ __pycache__/
 *.toc
 docs/build/
 
-# Backtest outputs & cached data
-results/*
-!results/.gitkeep
+# Backtest data
 data/*
 !data/.gitkeep
 

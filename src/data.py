@@ -38,11 +38,11 @@ def get_data(path: Path) -> pd.DataFrame:
     --------
     >>> import pandas as pd
     >>> from pathlib import Path
-    >>> get_data(Path("./data/AAPL.csv"))
-                  Open
+    >>> get_data(Path("./data/AAPL.csv")).head(2)  # doctest: +NORMALIZE_WHITESPACE
+                    Open      High       Low     Close
     Date
-    1980-12-12  0.1002
-    1980-12-15  0.0954
+    1980-12-12  0.100178  0.100614  0.100178  0.100178
+    1980-12-15  0.095388  0.095388  0.094952  0.094952
     """
     try:
         # Read only the necessary columns

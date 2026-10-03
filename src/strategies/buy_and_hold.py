@@ -44,12 +44,13 @@ def buy_and_hold(
     >>> import pandas as pd
     >>> dates = pd.to_datetime(["2020-01-01", "2020-01-02", "2020-01-03"])
     >>> df = pd.DataFrame({"Open": [100.0, 110.0, 105.0]}, index=dates)
-    >>> buy_and_hold(df, capital=1000.0, shares=0)
-                 Open   Cash  Shares  Portfolio Value
-    Date
-    2020-01-01  100.0    0.0      10           1000.0
-    2020-01-02  110.0    0.0      10           1100.0
-    2020-01-03  105.0    0.0      10           1050.0
+    >>> result = buy_and_hold(df, capital=1000.0, shares=0)
+    >>> result["Shares"].tolist()
+    [10, 10, 10]
+    >>> result["Cash"].tolist()
+    [0.0, 0.0, 0.0]
+    >>> result["Portfolio Value"].tolist()
+    [1000.0, 1100.0, 1050.0]
     """
     prices = df["Open"].astype(float)
     history: list[dict[str, float | int | pd.Timestamp]] = []

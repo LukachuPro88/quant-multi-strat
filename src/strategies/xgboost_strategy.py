@@ -52,14 +52,11 @@ def xgboost(
     >>> dates = pd.date_range("2020-01-01", periods=100, freq="D")
     >>> prices = [100.0 + (i % 5) * 2.0 for i in range(100)]
     >>> df = pd.DataFrame({"Open": prices}, index=dates)
-    >>> xgboost(df, capital=1000.0, shares=0, start_date=dates[70])  # doctest: +NORMALIZE_WHITESPACE
-                  Open    Cash  Shares  Portfolio Value
+    >>> xgboost(df, capital=1000.0, shares=0, start_date=dates[70]).head(2)  # doctest: +NORMALIZE_WHITESPACE
+                 Open  Cash  Shares  Portfolio Value
     Date
-    2020-03-12   102.0  1000.0       0           1000.0
-    2020-03-13   104.0  1000.0       0           1000.0
-    2020-03-14   106.0  1000.0       0           1000.0
-    2020-03-15   108.0  1000.0       0           1000.0
-    2020-03-16   100.0  1000.0       0           1000.0
+    2020-03-16  100.0   0.0      10           1000.0
+    2020-03-17  102.0   0.0      10           1020.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")

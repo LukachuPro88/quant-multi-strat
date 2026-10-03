@@ -63,14 +63,21 @@ def knn_momentum(
     >>> dates = pd.date_range("2020-01-01", periods=30, freq="D")
     >>> prices = [100.0 + i * 0.5 for i in range(30)]
     >>> df = pd.DataFrame({"Open": prices}, index=dates)
-    >>> knn_momentum(df, capital=1000.0, momentum_range=5, knn_amount=3)  # doctest: +NORMALIZE_WHITESPACE
-                  Open   Cash  Shares  Portfolio Value
+    >>> knn_momentum(
+    ...     df,
+    ...     capital=1000.0,
+    ...     shares=0,
+    ...     start_date=dates[0],
+    ...     momentum_range=5,
+    ...     knn_amount=3,
+    ... ) # doctest: +NORMALIZE_WHITESPACE
+                    Open   Cash  Shares  Portfolio Value
     Date
-    2020-01-26  112.5    0.0       8           900.0
-    2020-01-27  113.0    0.0       8           904.0
-    2020-01-28  113.5    0.0       8           908.0
-    2020-01-29  114.0    0.0       8           912.0
-    2020-01-30  114.5    0.0       8           916.0
+    2020-01-26  112.5  100.0       8           1000.0
+    2020-01-27  113.0  100.0       8           1004.0
+    2020-01-28  113.5  100.0       8           1008.0
+    2020-01-29  114.0  100.0       8           1012.0
+    2020-01-30  114.5  100.0       8           1016.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")

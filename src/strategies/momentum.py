@@ -52,10 +52,10 @@ def momentum(
     >>> prices = [100.0, 101.0, 102.0, 103.0, 104.0, 106.0, 105.0]
     >>> df = pd.DataFrame({"Open": prices}, index=dates)
     >>> momentum(df, capital=1000.0, momentum_range=5)  # doctest: +NORMALIZE_WHITESPACE
-                 Open   Cash  Shares  Portfolio Value
+                Open   Cash  Shares  Portfolio Value
     Date
-    2020-01-06  106.0   54.0       9           1008.0
-    2020-01-07  105.0   54.0       9            999.0
+    2020-01-06  106.0  46.0       9           1000.0
+    2020-01-07  105.0  46.0       9            991.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")

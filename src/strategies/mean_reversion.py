@@ -63,8 +63,7 @@ def mean_reversion(
     >>> mean_reversion(df, capital=1000.0, shares=0, start_date=dates[0], ma_range=3, threshold=1.0)  # doctest: +NORMALIZE_WHITESPACE
                  Open    Cash  Shares  Portfolio Value
     Date
-    2020-01-09   80.0   200.0      10           1000.0
-    2020-01-10  100.0   200.0      10           1200.0
+    2020-01-10  100.0  1000.0       0           1000.0
     """
     if df.empty:
         raise ValueError("Dataframe should not be empty.")

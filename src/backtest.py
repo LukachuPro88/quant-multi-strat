@@ -9,7 +9,7 @@ import src.strategies.mean_reversion as mr
 import src.strategies.momentum as mom
 import src.strategies.momentum_knn as knn
 import src.strategies.moving_average as ma
-import src.strategies.xgboost as xgb
+import strategies.xgboost_strategy as xgb
 import src.strategies.nn as nn
 
 
