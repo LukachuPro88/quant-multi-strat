@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
+*.toc
+docs/build/
+
+# Backtest outputs & cached data
+results/*
+!results/.gitkeep
+data/*
+!data/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
